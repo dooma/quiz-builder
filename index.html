@@ -210,5 +210,11 @@
     </div>
   </div>
 
+  <script type='text/javascript'>
+    $('[data-quiz="auto"]').each(function () {
+      var $quiz = $(this);
+      $quiz.quizBuilder($quiz.data());
+    })
+  </script>
 </body>
 </html>

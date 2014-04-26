@@ -29,7 +29,6 @@
     this.element = element;
 
     this.options = $.extend( {}, defaults, options) ;
-    this.storeElement = $( this.element ).find( this.options.store );
 
     this._defaults = defaults;
     this._name = pluginName;
@@ -61,7 +60,9 @@
      * Loads and de-serializes quiz content
      */
     store: function() {
-      return $.parseJSON( this.storeElement.val() ) || [];
+      if(typeof localStorage.quiz === 'undefined')
+        return [];
+      return $.parseJSON( localStorage.quiz );
     },
 
     /**
@@ -70,7 +71,11 @@
      */
     storeUpdate: function( data ) {
       data = JSON.stringify( data );
-      this.storeElement.val( data );
+
+      /**
+       * Use HTML5 localStorage instead of a HTML element
+       */
+      localStorage.quiz = data;
     },
 
     /**
@@ -260,7 +265,7 @@
 
             data['valid'] = true;
           } else {
-            data['valid'] = !!option.find( '.option-validation input' ).attr( 'checked' );
+            data['valid'] = !!option.find( '.option-validation input' ).is( ':checked' );
           }
 
           data['content'] = option.find( '.option-content textarea' ).val();
@@ -336,15 +341,4 @@
       }
     });
   }
-
-  /**
-   * Data API
-   */
-  $(window).on('load', function () {
-    $('[data-quiz="auto"]').each(function () {
-      var $quiz = $(this);
-      $quiz.quizBuilder($quiz.data());
-    })
-  })
-
 }(jQuery, window));
