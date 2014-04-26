@@ -9,8 +9,17 @@ The jQuery quiz builder I wrote for The Coursewa.re Project.
 Download the latest file from `src` directory.
 
 ## Usage
+This plugin uses HTML5 storage for questions instead of HTML tag.
+The purpose of this fork is to instantiate plugin in event listener(ex: `click element`). The plugin is used especially with [Meteor.js](https://meteor.com) projects.
 
 For usage and examples check the `index.html` file.
+To instantiate plugin add this into your `.html` file or to an event listener.
+```javascript
+$('[data-quiz="auto"]').each(function () {
+  var $quiz = $(this);
+  $quiz.quizBuilder($quiz.data());
+})
+```
 
 ## Contributing
 
